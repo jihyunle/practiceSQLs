@@ -72,3 +72,70 @@ select CONCAT(FirstName, ' ', LastName) as 'Full Name', customer.company from Cu
 inner join Company on
 customer.companyid=Company.companyid;
 
+
+
+-- UPDATING TABLES -- 
+select * from company;
+
+-- List all the people in customer's table whose last name is Smith
+select * from Customer 
+where lastName = 'Smith';
+
+-- List all the customers and their employers and positions that live in Toledo
+select title, firstName, lastName, Company, Position, City from Customer
+where city = 'Toledo';
+
+-- List all the customers and their employers and positions that live in Virginia Beach
+select title, firstName, lastName, Company, Position, City from Customer
+where city = 'Virginia Beach';
+
+-- Which is the most popular employer in our database? (hint: use select count(*) ....)
+SELECT Company, count(*)
+FROM customer
+GROUP BY Company
+-- HAVING count(*) > 2
+order by count(*) DESC;
+-- Gallenkamp and Royal Gas have 3 employees in the list each
+
+/*Which is the most populated state in our database?*/
+SELECT State, count(*)
+FROM customer
+GROUP BY State
+-- having count(*) > 10
+order by count(*) DESC;
+/*California at 31*/
+
+/*Change the name of Paula Hill of Anaheim, CA. 
+She just got married to Mr. Smith so she is now Paula Smith.*/
+select * from customer
+where
+	firstName = 'Paula' AND lastName = 'Hill' AND City = 'Anaheim' AND State = 'CA';
+
+update customer
+set lastName = 'Smith'
+where customerId = 241;
+
+select * from customer
+where
+	firstName = 'Paula' AND City = 'Anaheim' AND State = 'CA';
+    
+    
+/*Vanessa Brown also married Mr. Smith (not the same guy). Update her record as well.*/
+update customer
+set lastName = 'Smith'
+where firstName = 'Vanessa' AND lastName = 'Brown';
+
+/*Now I want to know how many people in the database are named Smith?*/
+select count(*) from customer
+where lastName = 'Smith';
+
+/*How many people have last names beginning with S? 
+We can use the LIKE operator to determine this. 
+The following statement will work: Select * from customers where LastName like 'S%'; 
+The percent sign is a wildcard in most databases.*/
+Select count(*) from customer 
+where LastName like 'S%';
+/*Answer is 25 people*/
+
+
+
